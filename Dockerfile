@@ -1,22 +1,18 @@
-FROM golang:1.11.4
+# Create Builder
+FROM golang:1.11.4-alpine3.8 as builder
 
-ARG LD_FLAGS=""
+RUN apk update && apk add git && apk add ca-certificates
+RUN adduser -D -g '' appuser
 
-RUN go version
+# Create Container
+FROM scratch
 
-RUN go get github.com/mitchellh/gox
-RUN go get github.com/go-playground/overalls
+MAINTAINER Billy Wooten <billykwooten@gmail.com>
 
-ENV GOAPP_PATH /go/src/github.com/billykwooten/darksky-exporter
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /etc/passwd /etc/passwd
+# Copy our static executable
+ADD darksky-exporter /app
 
-RUN mkdir -p $GOAPP_PATH
-ADD . $GOAPP_PATH
-WORKDIR $GOAPP_PATH
-
-RUN ./script/test
-
-RUN go build -ldflags "$LD_FLAGS" .
-
-RUN gox -ldflags "$LD_FLAGS" -os="darwin linux windows" -arch="amd64" -output "darksky-exporter-{{.OS}}-{{.Arch}}"
-
-CMD tar -cf - darksky-exporter*
+USER appuser
+ENTRYPOINT ["/app"]

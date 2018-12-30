@@ -1,3 +1,0 @@
-FROM busybox:ubuntu-14.04
-COPY .build/darksky-exporter-linux-amd64 /bin/app
-ENTRYPOINT ["/bin/app"]
