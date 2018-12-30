@@ -36,16 +36,27 @@ docker run -d --restart on-failure --name=darksky-exporter -p 9091:9091 darksky-
 
 ## Building from Source
 
-To build from source run the cibuild script described below.
+To build from source run `make build`, other options are below.
 
 ```
-script/cibuild
-```
+# make help
 
-You can also do the following.
+ Choose a command run in darksky-exporter:
+
+  build                                                            Build local binaries and docker image.
+  install-goreleaser-linux                                         Install goreleaser on your system for Linux systems.
+  install-goreleaser-darwin                                        Install goreleaser on your system for macOS (Darwin).
+  github-release                                                   Publish a release to github.
+  clean                                                            Clean directory.
+
 ```
-script/crosscompile     #Cross compiles for linux, macOS, windows
-script/server           #Run container locally
-script/test             #Run all go test
-script/clean            #Clean repo
+### Deploying to github
+
+Github deployment utilized goreleaser to push to github.
+
+First change the version in version/version.go to the correct tag release. Then run the following:
+
+```
+export GITHUB_TOKEN="<YOUR_TOKEN>"
+make github-release
 ```

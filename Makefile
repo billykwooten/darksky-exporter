@@ -1,11 +1,10 @@
 .DEFAULT_GOAL := help
 
-## Project name is the same as the binary name in .goreleaser.yml
+# Project name is the same as the binary name in .goreleaser.yml
 PROJECTNAME := darksky-exporter
 
 GORELEASER_VERSION := 0.95.2
 TAG := $(shell cat version/version.go | grep "Version" | head -1 | sed 's/\"//g' | cut -d' ' -f3 )
-
 
 ## build: Build local binaries and docker image.
 build:
