@@ -15,7 +15,7 @@ import (
 var (
 	app      = kingpin.New("darksky_exporter", "DarkSky Exporter for DarkSky Weather API").Author("Billy Wooten")
 	addr     = app.Flag("listen-address", "HTTP port to listen on").Envar("LISTEN_ADDRESS").Default(":9091").String()
-	apikey   = app.Flag("api-key", "DarkSky API Key").Envar("APIKEY").Required().String()
+	apikey   = app.Flag("apikey", "DarkSky API Key").Envar("APIKEY").Required().String()
 	city     = app.Flag("city", "City for DarkSky to gather metrics from.").Envar("CITY").Default("New York, NY").String()
 	interval = app.Flag("interval", "Interval to poll the DarkSky API.").Envar("INTERVAL").Default("2m").String()
 )
