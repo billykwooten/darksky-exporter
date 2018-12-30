@@ -29,3 +29,19 @@ Dark Sky Exporter can be controlled by both ENV or CLI flags as described below.
 | `APIKEY`                   | `apikey`                    | `<REQUIRED>`                | Your Dark Sky API Key |
 | `CITY`                     | `city`                      | `New York, NY`              | City/Location in which to gather weather metrics |
 | `INTERVAL`                 | `interval`                  | `2m`                        | Interval to poll the Dark Sky API |
+
+## Building from Source
+
+To build from source run the cibuild script described below.
+
+```
+script/cibuild
+```
+
+You can also do the following.
+```
+script/crosscompile     #Cross compiles for linux, macOS, windows
+script/server           #Run container locally
+script/test             #Run all go test
+script/clean            #Clean repo
+```

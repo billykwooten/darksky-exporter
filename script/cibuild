@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+set -e -o pipefail +x
+
+cd "$(dirname "$0")"/..
+
+# shellcheck disable=1091
+source script/settings
+
+# shellcheck disable=1091
+source script/common
+
+taskStart "cibuild"
+
+#run goimports
+if  builtin type -p goimports &>/dev/null; then
+    taskProgress "formatting"
+    find ./ -name "*.go" | grep -v /vendor/ | xargs goimports -w=true
+fi
+
+#run go tool vet
+taskProgress "vetting"
+find . -name "*.go" | grep -v /vendor/ | grep -v .build | xargs go tool vet -all
+
+# run shellcheck
+if  builtin type -p shellcheck &>/dev/null; then
+    taskProgress "shellcheck"
+    for file in ./script/*
+    do
+        shellcheck "$file"
+    done
+fi
+
+taskProgress "docker"
+docker build --build-arg LD_FLAGS="$LD_FLAGS" --rm=true --pull=true -t builder .
+BUILDDIR=.build
+rm -rf "${BUILDDIR}"
+mkdir -p "${BUILDDIR}"
+
+pushd "${BUILDDIR}" &>/dev/null;
+
+docker run builder > builder.tar
+tar -xf builder.tar 'darksky-exporter*'
+rm -rf builder.tar
+
+popd &>/dev/null;
+
+docker build -f Dockerfile.run -t "${IMAGE_NAME}:${IMAGE_TAG}" .
+
+echo "==> Finished building Docker image for ${IMAGE_NAME}:${IMAGE_TAG}"
+
+echo ""
+git status

@@ -1,22 +1,22 @@
-# Copyright 2016 The Kubernetes Authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+FROM golang:1.11.4
 
-FROM ARG_FROM
+ARG LD_FLAGS=""
 
-MAINTAINER Billy Wooten <billykwooten@gmail.com>
+RUN go version
 
-ADD bin/ARG_ARCH/ARG_BIN /ARG_BIN
+RUN go get github.com/mitchellh/gox
+RUN go get github.com/go-playground/overalls
 
-USER nobody:nobody
-ENTRYPOINT ["/ARG_BIN"]
+ENV GOAPP_PATH /go/src/github.com/billykwooten/darksky-exporter
+
+RUN mkdir -p $GOAPP_PATH
+ADD . $GOAPP_PATH
+WORKDIR $GOAPP_PATH
+
+RUN ./script/test
+
+RUN go build -ldflags "$LD_FLAGS" .
+
+RUN gox -ldflags "$LD_FLAGS" -os="darwin linux windows" -arch="amd64" -output "darksky-exporter-{{.OS}}-{{.Arch}}"
+
+CMD tar -cf - darksky-exporter*
