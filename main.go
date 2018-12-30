@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/billykwooten/darksky-exporter/geo-golang"
+	"github.com/billykwooten/darksky-exporter/prom"
 	"github.com/codingsince1985/geo-golang/openstreetmap"
 	"github.com/prometheus/client_golang/prometheus"
 	"gopkg.in/alecthomas/kingpin.v2"
-	"github.com/billykwooten/darksky-exporter/geo-golang"
-	"github.com/billykwooten/darksky-exporter/prom"
 )
 
 var (
