@@ -43,13 +43,15 @@ To build from source run `make build`, other options are below.
 
  Choose a command run in darksky-exporter:
 
-  build                                                            Build local binaries and docker image.
-  install-goreleaser-linux                                         Install goreleaser on your system for Linux systems.
-  install-goreleaser-darwin                                        Install goreleaser on your system for macOS (Darwin).
-  github-release                                                   Publish a release to github.
-  clean                                                            Clean directory.
+  build                       Build local binaries and docker image.
+  build-image                 Build just docker image.
+  install-goreleaser-linux    Install goreleaser on your system for Linux systems.
+  install-goreleaser-darwin   Install goreleaser on your system for macOS (Darwin).
+  github-release              Publish a release to github.
+  clean                       Clean directory.
 
 ```
+
 ### Deploying to github
 
 Github deployment utilized goreleaser to push to github.

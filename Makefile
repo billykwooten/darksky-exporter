@@ -12,6 +12,15 @@ build:
 	git tag -a v0.1.0 -m "First release"
 .PHONY: build
 
+## build-image: Build just docker image.
+build-image:
+	@echo "=> Building docker image ..."
+	GOOS="linux" GOARCH="amd64" go build -o "$(PROJECTNAME)" .
+	docker build -f Dockerfile -t "$(PROJECTNAME):v$(TAG)" .
+	@echo "=> Cleanup ..."
+	rm -rf darksky-exporter
+.PHONY: build-image
+
 test:
 	@echo "=> Running Go Test via Goveralls ..."
 	mkdir _test
