@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
+	forecast "github.com/mlbright/forecast/v2"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/robfig/cron"
-	forecast "github.com/mlbright/forecast/v2"
 )
 
 var (

@@ -1,12 +1,13 @@
 package geo_golang
 
 import (
-	"github.com/codingsince1985/geo-golang"
 	"log"
 	"strconv"
+
+	"github.com/codingsince1985/geo-golang"
 )
 
-func Get_coords(geocoder geo.Geocoder, city string) (string, string){
+func Get_coords(geocoder geo.Geocoder, city string) (string, string) {
 	location, _ := geocoder.Geocode(city)
 	if location != nil {
 		log.Printf("Location given was %s", city)
