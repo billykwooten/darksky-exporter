@@ -3,13 +3,13 @@ package main
 import (
 	"log"
 	"net/http"
-	"os"
-
 	"github.com/billykwooten/darksky-exporter/geo-golang"
 	"github.com/billykwooten/darksky-exporter/prom"
+	"github.com/billykwooten/darksky-exporter/version"
 	"github.com/codingsince1985/geo-golang/openstreetmap"
 	"github.com/prometheus/client_golang/prometheus"
 	"gopkg.in/alecthomas/kingpin.v2"
+	"os"
 )
 
 var (
@@ -21,6 +21,8 @@ var (
 )
 
 func main() {
+	version := version.GetVersion().FullVersionNumber(true)
+	app.Version(version)
 	kingpin.MustParse(app.Parse(os.Args[1:]))
 
 	latitude, longitude := geo_golang.Get_coords(openstreetmap.Geocoder(), *city)

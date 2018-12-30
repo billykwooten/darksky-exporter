@@ -11,6 +11,7 @@ Dark Sky Exporter is a Prometheus exporter for weather metrics consumed from the
 
 * [go](https://golang.org/dl)
 * [godep](https://github.com/tools/godep)
+* [goreleaser](https://github.com/goreleaser/goreleaser)
 
 ## Configuration
 
