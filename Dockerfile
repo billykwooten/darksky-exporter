@@ -15,5 +15,3 @@ COPY --from=builder /go/bin/darksky_exporter /go/bin/darksky_exporter
 EXPOSE 9091
 USER appuser
 ENTRYPOINT ["/go/bin/darksky_exporter", "-listen-address", ":9091"]
-
-
