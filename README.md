@@ -5,11 +5,11 @@ Dark Sky Exporter is a Prometheus exporter for weather metrics consumed from the
 ## Requirements
 
 * Linux / MacOS / Windows
+* [docker](https://www.docker.com)
 
 ## Development
 
 * [go](https://golang.org/dl)
-* [docker](https://www.docker.com)
 * [godep](https://github.com/tools/godep)
 
 ## Usage

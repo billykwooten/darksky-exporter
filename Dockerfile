@@ -1,17 +1,22 @@
-FROM golang:alpine as builder
-RUN apk update && apk add git && apk add ca-certificates
-RUN adduser -D -g '' appuser
-COPY . $GOPATH/src/mypackage/myapp/
-WORKDIR $GOPATH/src/mypackage/myapp/
-RUN go get -d -v
-#build the binary
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags="-w -s" -o /go/bin/darksky_exporter
+# Copyright 2016 The Kubernetes Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-FROM scratch
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=builder /etc/passwd /etc/passwd
-COPY --from=builder /go/bin/darksky_exporter /go/bin/darksky_exporter
+FROM ARG_FROM
 
-EXPOSE 9091
-USER appuser
-ENTRYPOINT ["/go/bin/darksky_exporter", "-listen-address", ":9091"]
+MAINTAINER Billy Wooten <billykwooten@gmail.com>
+
+ADD bin/ARG_ARCH/ARG_BIN /ARG_BIN
+
+USER nobody:nobody
+ENTRYPOINT ["/ARG_BIN"]

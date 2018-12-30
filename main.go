@@ -6,10 +6,10 @@ import (
 	"os"
 
 	"github.com/codingsince1985/geo-golang/openstreetmap"
-	"github.com/darksky_exporter/geo-golang"
-	"github.com/darksky_exporter/prom"
 	"github.com/prometheus/client_golang/prometheus"
 	"gopkg.in/alecthomas/kingpin.v2"
+	"github.com/billykwooten/darksky-exporter/geo-golang"
+	"github.com/billykwooten/darksky-exporter/prom"
 )
 
 var (
