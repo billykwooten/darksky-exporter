@@ -3,6 +3,7 @@ MAKEFLAGS += --silent
 
 # Project name is the same as the binary name in .goreleaser.yml
 PROJECTNAME := darksky-exporter
+PROJECTORG := billykwooten
 
 GORELEASER_VERSION := 0.95.2
 TAG := $(shell cat version/version.go | grep "Version" | head -1 | sed 's/\"//g' | cut -d' ' -f3 )
@@ -25,7 +26,7 @@ test:
 	mkdir _test
 	go get golang.org/x/tools/cmd/cover
 	go get github.com/mattn/goveralls
-	overalls -covermode=atomic -project=github.com/billykwooten/$(PROJECTNAME) -- -race -v
+	overalls -covermode=atomic -project=github.com/$(PROJECTORG)/$(PROJECTNAME) -- -race -v
 	mv overalls.coverprofile _test/$(PROJECTNAME).cover
 	go tool cover -func=_test/$(PROJECTNAME).cover
 	rm -rf _test
