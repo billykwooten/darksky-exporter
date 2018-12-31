@@ -26,8 +26,8 @@ func main() {
 	kingpin.MustParse(app.Parse(os.Args[1:]))
 
 	latitude, longitude := geo_golang.Get_coords(openstreetmap.Geocoder(), *city)
-	prom.CollectSample(*apikey, latitude, longitude)
-	prom.StartCron(*apikey, latitude, longitude, *interval)
+	prom.CollectSample(*apikey, latitude, longitude, *city)
+	prom.StartCron(*apikey, latitude, longitude, *interval, *city)
 
 	http.Handle("/metrics", prometheus.Handler())
 
