@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	forecast "github.com/mlbright/forecast/v2"
+	forecast "github.com/billykwooten/darksky/v2"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/robfig/cron"
 )
@@ -108,6 +108,13 @@ var (
 		},
 		[]string{"city","latitude", "longitude"},
 	)
+	nearestStormDistance = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name: "darksky_nearestStormDistance",
+			Help: "Nearest storm in km or miles",
+		},
+		[]string{"city","latitude", "longitude"},
+	)
 )
 
 func init() {
@@ -119,10 +126,12 @@ func init() {
 	prometheus.MustRegister(humidity)
 	prometheus.MustRegister(pressure)
 	prometheus.MustRegister(windSpeed)
+	prometheus.MustRegister(windGust)
 	prometheus.MustRegister(windBearing)
 	prometheus.MustRegister(cloudCover)
 	prometheus.MustRegister(visibility)
 	prometheus.MustRegister(ozone)
+	prometheus.MustRegister(nearestStormDistance)
 }
 
 func f2s(f float64) string {
@@ -150,6 +159,8 @@ func CollectSample(apikey string, latitude string, longitude string, city string
 	cloudCover.With(prometheus.Labels{"latitude": f2s(f.Latitude), "longitude": f2s(f.Longitude), "city": city}).Set(f.Currently.CloudCover)
 	visibility.With(prometheus.Labels{"latitude": f2s(f.Latitude), "longitude": f2s(f.Longitude), "city": city}).Set(f.Currently.Visibility)
 	ozone.With(prometheus.Labels{"latitude": f2s(f.Latitude), "longitude": f2s(f.Longitude), "city": city}).Set(f.Currently.Ozone)
+	nearestStormDistance.With(prometheus.Labels{"latitude": f2s(f.Latitude), "longitude": f2s(f.Longitude), "city": city}).Set(f.Currently.NearestStormDistance)
+	windGust.With(prometheus.Labels{"latitude": f2s(f.Latitude), "longitude": f2s(f.Longitude), "city": city}).Set(f.Currently.WindGust)
 
 }
 
