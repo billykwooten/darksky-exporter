@@ -16,16 +16,16 @@ build: | test
 .PHONY: build
 
 ## build-image: Build just docker image.
-build-image: | test
+build-image:
 	@echo "=> Building docker image ..."
 	docker build -f Dockerfile -t "$(PROJECTNAME):v$(TAG)" .
 .PHONY: build-image
 
 test:
-	@echo "=> Running Go Test via Goveralls ..."
+	@echo "=> Running Go Test via Overalls ..."
 	mkdir _test
 	go get golang.org/x/tools/cmd/cover
-	go get github.com/mattn/goveralls
+	go get github.com/go-playground/overalls
 	overalls -covermode=atomic -project=github.com/$(PROJECTORG)/$(PROJECTNAME) -- -race -v
 	mv overalls.coverprofile _test/$(PROJECTNAME).cover
 	go tool cover -func=_test/$(PROJECTNAME).cover
