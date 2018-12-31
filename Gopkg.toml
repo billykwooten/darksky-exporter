@@ -30,10 +30,6 @@
   version = "4.0.0"
 
 [[constraint]]
-  branch = "master"
-  name = "github.com/mlbright/forecast"
-
-[[constraint]]
   name = "github.com/prometheus/client_golang"
   version = "0.9.2"
 
