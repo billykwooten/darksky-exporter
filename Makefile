@@ -50,7 +50,7 @@ install-goreleaser-darwin:
 github-release: | test
 	@echo "=> Running Publish Release to Github ..."
 	git tag -a v$(TAG) --force
-	git push origin v$(TAG)
+	git push origin v$(TAG) --force
 	goreleaser
 .PHONY: github-release
 
