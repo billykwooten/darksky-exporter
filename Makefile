@@ -3,29 +3,30 @@ MAKEFLAGS += --silent
 
 # Project name is the same as the binary name in .goreleaser.yml
 PROJECTNAME := darksky-exporter
+PROJECTORG := billykwooten
 
 GORELEASER_VERSION := 0.95.2
 TAG := $(shell cat version/version.go | grep "Version" | head -1 | sed 's/\"//g' | cut -d' ' -f3 )
 
-## build: Build local binaries and docker image.
+## build: Build local binaries and docker image. Requires `go` to be installed.
 build: | test
 	@echo "=> Building with goreleaser ..."
-	git tag -a v$(TAG)
+	git tag -a v$(TAG) --force
 	goreleaser release --skip-publish
 .PHONY: build
 
 ## build-image: Build just docker image.
-build-image: | test
+build-image:
 	@echo "=> Building docker image ..."
 	docker build -f Dockerfile -t "$(PROJECTNAME):v$(TAG)" .
 .PHONY: build-image
 
 test:
-	@echo "=> Running Go Test via Goveralls ..."
+	@echo "=> Running Go Test via Overalls ..."
 	mkdir _test
 	go get golang.org/x/tools/cmd/cover
-	go get github.com/mattn/goveralls
-	overalls -covermode=atomic -project=github.com/billykwooten/$(PROJECTNAME) -- -race -v
+	go get github.com/go-playground/overalls
+	overalls -covermode=atomic -project=github.com/$(PROJECTORG)/$(PROJECTNAME) -- -race -v
 	mv overalls.coverprofile _test/$(PROJECTNAME).cover
 	go tool cover -func=_test/$(PROJECTNAME).cover
 	rm -rf _test
@@ -48,7 +49,7 @@ install-goreleaser-darwin:
 ## github-release: Publish a release to github.
 github-release: | test
 	@echo "=> Running Publish Release to Github ..."
-	git tag -a v$(TAG)
+	git tag -a v$(TAG) --force
 	git push origin v$(TAG)
 	goreleaser
 .PHONY: github-release

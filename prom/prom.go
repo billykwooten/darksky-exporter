@@ -143,7 +143,7 @@ func CollectSample(apikey string, latitude string, longitude string, city string
 	f, err := forecast.Get(apikey, latitude, longitude, "now", forecast.AUTO, forecast.English)
 	if err != nil {
 		log.Println(err)
-		log.Fatalf("Skipping measurement due to error.")
+		log.Println("Skipping measurement due to error.")
 		return
 	}
 
