@@ -10,7 +10,7 @@ TAG := $(shell cat version/version.go | grep "Version" | head -1 | sed 's/\"//g'
 ## build: Build local binaries and docker image.
 build: | test
 	@echo "=> Building with goreleaser ..."
-	git tag -a v$(TAG)
+	git tag -a v$(TAG) --force
 	goreleaser release --skip-publish
 .PHONY: build
 
@@ -48,7 +48,7 @@ install-goreleaser-darwin:
 ## github-release: Publish a release to github.
 github-release: | test
 	@echo "=> Running Publish Release to Github ..."
-	git tag -a v$(TAG)
+	git tag -a v$(TAG) --force
 	git push origin v$(TAG)
 	goreleaser
 .PHONY: github-release
