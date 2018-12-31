@@ -8,7 +8,7 @@ PROJECTORG := billykwooten
 GORELEASER_VERSION := 0.95.2
 TAG := $(shell cat version/version.go | grep "Version" | head -1 | sed 's/\"//g' | cut -d' ' -f3 )
 
-## build: Build local binaries and docker image.
+## build: Build local binaries and docker image. Requires `go` to be installed.
 build: | test
 	@echo "=> Building with goreleaser ..."
 	git tag -a v$(TAG) --force
