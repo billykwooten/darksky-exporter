@@ -51,7 +51,7 @@ github-release:
 	git tag -a v$(TAG)
 	git push origin v$(TAG)
 	goreleaser
-.PHONY: clean
+.PHONY: github-release
 
 ## clean: Clean directory.
 clean:
