@@ -9,16 +9,16 @@ TAG := $(shell cat version/version.go | grep "Version" | head -1 | sed 's/\"//g'
 ## build: Build local binaries and docker image.
 build:
 	@echo "=> Building with goreleaser ..."
-	git tag -a v0.1.0 -m "First release"
+	git tag -a v$(TAG)
+	goreleaser release --skip-publish
 .PHONY: build
 
 ## build-image: Build just docker image.
 build-image:
 	@echo "=> Building docker image ..."
-	GOOS="linux" GOARCH="amd64" go build -o "$(PROJECTNAME)" .
 	docker build -f Dockerfile -t "$(PROJECTNAME):v$(TAG)" .
 	@echo "=> Cleanup ..."
-	rm -rf darksky-exporter
+	rm -rf $(PROJECTNAME)
 .PHONY: build-image
 
 test:
@@ -29,6 +29,7 @@ test:
 	overalls -covermode=atomic -project=github.com/billykwooten/$(PROJECTNAME) -- -race -v
 	mv overalls.coverprofile _test/$(PROJECTNAME).cover
 	go tool cover -func=_test/$(PROJECTNAME).cover
+	rm -rf _test
 .PHONY: test
 
 ## install-goreleaser-linux: Install goreleaser on your system for Linux systems.

@@ -1,8 +1,14 @@
-# Create Builder
+# Create Builder & Build
 FROM golang:1.11.4-alpine3.8 as builder
 
-RUN apk update && apk add git && apk add ca-certificates
+RUN apk update && apk add --no-cache git && apk add ca-certificates
 RUN adduser -D -g '' appuser
+
+COPY . $GOPATH/src/github.com/billykwooten/darksky-exporter
+WORKDIR $GOPATH/src/github.com/billykwooten/darksky-exporter
+
+RUN go get -d -v
+RUN CGO_ENABLED=0 GOOS="linux" GOARCH="amd64" go build -a -installsuffix cgo -ldflags="-w -s" -o /app
 
 # Create Container
 FROM scratch
@@ -11,8 +17,7 @@ MAINTAINER Billy Wooten <billykwooten@gmail.com>
 
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /etc/passwd /etc/passwd
-# Copy our static executable
-ADD darksky-exporter /app
+COPY --from=builder /app /app
 
 USER appuser
 ENTRYPOINT ["/app"]
