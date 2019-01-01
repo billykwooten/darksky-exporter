@@ -7,13 +7,17 @@ RUN adduser -D -g '' appuser
 COPY . $GOPATH/src/github.com/billykwooten/darksky-exporter
 WORKDIR $GOPATH/src/github.com/billykwooten/darksky-exporter
 
+# Run Test
 RUN go get golang.org/x/tools/cmd/cover
-RUN	go get github.com/go-playground/overalls
-RUN	overalls -covermode=atomic -project=github.com/billykwooten/darksky-exporter -- -race -v
+RUN go get github.com/go-playground/overalls
+RUN overalls -covermode=atomic -project=github.com/billykwooten/darksky-exporter -- -race -v
 RUN mv overalls.coverprofile darksky-exporter.cover
-RUN	go tool cover -func=darksky-exporter.cover
+RUN go tool cover -func=darksky-exporter.cover
 
+# Get Dependencies
 RUN go get -d -v
+
+# Build Binary in builder
 RUN CGO_ENABLED=0 GOOS="linux" GOARCH="amd64" go build -a -installsuffix cgo -ldflags="-w -s" -o /app
 
 # Create Container
