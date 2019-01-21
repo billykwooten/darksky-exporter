@@ -65,5 +65,7 @@ First change the version in version/version.go to the correct tag release. Then 
 
 ```
 export GITHUB_TOKEN="<YOUR_TOKEN>"
+export DOCKER_LOGIN='<USERNAME>'
+export DOCKER_PASSWORD='<PASSWORD>'
 make github-release
 ```
