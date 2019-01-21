@@ -3,6 +3,8 @@ before:
     - make clean
     # you may remove this if you don't need go generate
     - go generate ./...
+    # Login to dockerhub
+    - echo $DOCKER_PASSWORD | docker login --username $DOCKER_LOGIN --password-stdin
     # run test
     - make test
 builds:
