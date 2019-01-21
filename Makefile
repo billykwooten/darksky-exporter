@@ -4,6 +4,9 @@ MAKEFLAGS += --silent
 # Project name is the same as the binary name in .goreleaser.yml
 PROJECTNAME := darksky-exporter
 PROJECTORG := billykwooten
+DOCKER_USER = ${DOCKER_LOGIN}
+DOCKER_PASS = $(DOCKER_PASSWORD)
+
 
 GORELEASER_VERSION := 0.95.2
 TAG := $(shell cat version/version.go | grep "Version" | head -1 | sed 's/\"//g' | cut -d' ' -f3 )
@@ -34,7 +37,13 @@ test:
 
 login:
 	@echo "=> Logging into Dockerhub ..."
-	TEST := $(or $(TEST),$(DOCKER_LOGIN))
+ifeq ($(DOCKER_USER), )
+	$(error DOCKER_LOGIN is not set)
+endif
+ifeq ($(DOCKER_PASS), )
+	$(error DOCKER_PASSWORD is not set)
+endif
+	$(shell echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin)
 .PHONY: login
 
 ## install-goreleaser-linux: Install goreleaser on your system for Linux systems.
