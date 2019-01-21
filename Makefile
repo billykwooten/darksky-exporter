@@ -32,6 +32,11 @@ test:
 	rm -rf _test
 .PHONY: test
 
+login:
+	@echo "=> Logging into Dockerhub ..."
+	TEST := $(or $(TEST),$(DOCKER_LOGIN))
+.PHONY: login
+
 ## install-goreleaser-linux: Install goreleaser on your system for Linux systems.
 install-goreleaser-linux:
 	wget -nv -P /tmp/ https://github.com/goreleaser/goreleaser/releases/download/v$(GORELEASER_VERSION)/goreleaser_Linux_x86_64.tar.gz
