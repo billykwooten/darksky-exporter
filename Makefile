@@ -43,7 +43,7 @@ endif
 ifeq ($(DOCKER_PASS), )
 	$(error DOCKER_PASSWORD is not set)
 endif
-	$(shell echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin)
+	$(shell echo $(DOCKER_PASS) | docker login --username $(DOCKER_USER) --password-stdin)
 .PHONY: login
 
 ## install-goreleaser-linux: Install goreleaser on your system for Linux systems.
