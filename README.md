@@ -31,7 +31,7 @@ Dark sky exporter can be controlled by both ENV or CLI flags as described below.
 ./darksky-exporter --city "Seattle, WA" --apikey mi4o2n54i0510n4510
 
 # Export weather metrics from Seattle using docker
-docker run -d --restart on-failure --name=darksky-exporter -p 9091:9091 darksky-exporter:<TAG> --city "Seattle, WA" --apikey mi4o2n54i0510n4510
+docker run -d --restart on-failure --name=darksky-exporter -p 9091:9091 billykwooten/darksky-exporter --city "Seattle, WA" --apikey mi4o2n54i0510n4510
 ```
 
 ## Building from Source
