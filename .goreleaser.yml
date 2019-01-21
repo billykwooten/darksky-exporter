@@ -3,6 +3,8 @@ before:
     - make clean
     # you may remove this if you don't need go generate
     - go generate ./...
+    # Login to dockerhub
+    - make login
     # run test
     - make test
 builds:
@@ -29,7 +31,7 @@ dockers:
     dockerfile: Dockerfile.gr
     # Skips the docker push. Could be useful if you also do draft releases.
     # Defaults to false.
-    skip_push: true
+    skip_push: false
 archive:
   format: tar.gz
   files:
