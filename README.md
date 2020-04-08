@@ -1,3 +1,7 @@
+# Due to Apple purchasing Dark Sky, this exporter will continue to work until the end of 2021. Apple will most likely absorb Dark Sky into it's ecosystem at which point this exporter will stop working. See more at: https://blog.darksky.net/
+
+
+
 # Dark Sky Prometheus Exporter
 
 Dark Sky Exporter is a prometheus exporter for weather metrics consumed from the [Dark Sky API](https://darksky.net/dev).
