@@ -1,6 +1,8 @@
 # Due to Apple purchasing Dark Sky, this exporter will continue to work until the end of 2021. Apple will most likely absorb Dark Sky into it's ecosystem at which point this exporter will stop working. See more at: https://blog.darksky.net/
 
-
+![Docker Pulls](https://img.shields.io/docker/pulls/billykwooten/darksky-exporter.svg)
+![Docker Automated](https://img.shields.io/docker/cloud/automated/billykwooten/darksky-exporter.svg)
+![Docker Build](https://img.shields.io/docker/cloud/build/billykwooten/darksky-exporter.svg)
 
 # Dark Sky Prometheus Exporter
 
